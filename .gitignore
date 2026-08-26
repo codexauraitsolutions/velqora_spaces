@@ -145,3 +145,4 @@ vite.config.ts.timestamp-*
 # Raw source photography/video (unprocessed uploads, not used by the built site —
 # optimized copies live in web/src/assets/portfolio/). Kept locally only.
 /assets/
+.vercel
