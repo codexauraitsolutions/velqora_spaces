@@ -1,14 +1,26 @@
-import { ArrowRight, Sofa, ChefHat, BedDouble, BookOpen, Briefcase, KeyRound } from 'lucide-react'
+import {
+  ArrowRight,
+  Home as HomeIcon,
+  ChefHat,
+  Hammer,
+  Tv,
+  Building2,
+  Store,
+  UtensilsCrossed,
+  KeyRound,
+} from 'lucide-react'
 import Reveal from '../components/Reveal'
 import { usePopup } from '../context/PopupContext'
 import { SERVICES } from '../data/site'
 
 const SERVICE_ICONS = {
-  sofa: Sofa,
+  residential: HomeIcon,
   kitchen: ChefHat,
-  bed: BedDouble,
-  study: BookOpen,
-  office: Briefcase,
+  carpentry: Hammer,
+  theater: Tv,
+  commercial: Building2,
+  showroom: Store,
+  cafe: UtensilsCrossed,
   turnkey: KeyRound,
 }
 
@@ -23,8 +35,8 @@ export default function Services() {
             Every space, <span className="text-gold-foil italic">considered.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-ivory/55">
-            From a single accent wall to a full turnkey home, our services are built around one
-            promise — design and execution under one accountable roof.
+            From a single custom wardrobe to a full turnkey home or commercial space, our
+            services are built around one promise — design and execution under one accountable roof.
           </p>
         </Reveal>
       </section>

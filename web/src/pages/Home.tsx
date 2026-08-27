@@ -1,7 +1,19 @@
 import { lazy, Suspense, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, ArrowUpRight, Quote, Sofa, ChefHat, BedDouble, BookOpen, Briefcase, KeyRound } from 'lucide-react'
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Quote,
+  Home as HomeIcon,
+  ChefHat,
+  Hammer,
+  Tv,
+  Building2,
+  Store,
+  UtensilsCrossed,
+  KeyRound,
+} from 'lucide-react'
 
 const HeroScene = lazy(() => import('../three/HeroScene'))
 import Reveal from '../components/Reveal'
@@ -11,11 +23,13 @@ import { usePopup } from '../context/PopupContext'
 import { CITIES, PORTFOLIO, PROCESS_STEPS, SERVICES, STATS, TESTIMONIALS } from '../data/site'
 
 const SERVICE_ICONS = {
-  sofa: Sofa,
+  residential: HomeIcon,
   kitchen: ChefHat,
-  bed: BedDouble,
-  study: BookOpen,
-  office: Briefcase,
+  carpentry: Hammer,
+  theater: Tv,
+  commercial: Building2,
+  showroom: Store,
+  cafe: UtensilsCrossed,
   turnkey: KeyRound,
 }
 
@@ -143,10 +157,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6 sm:px-8">
           <Reveal className="max-w-xl">
             <p className="text-xs uppercase tracking-[0.4em] text-gold-400/70">What We Design</p>
-            <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">A room for every ritual.</h2>
+            <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">From homes to hospitality.</h2>
           </Reveal>
 
-          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {SERVICES.map((service, i) => {
               const Icon = SERVICE_ICONS[service.icon as keyof typeof SERVICE_ICONS]
               return (

@@ -54,9 +54,9 @@ export const CITIES = [
 
 export const SERVICES = [
   {
-    title: 'Living & Dining',
-    desc: 'Statement living rooms and dining spaces designed around how you actually gather.',
-    icon: 'sofa',
+    title: 'Residential Interiors',
+    desc: 'End-to-end home interiors — from first sketch to final handover — designed around how your family actually lives.',
+    icon: 'residential',
   },
   {
     title: 'Modular Kitchens',
@@ -64,19 +64,29 @@ export const SERVICES = [
     icon: 'kitchen',
   },
   {
-    title: 'Master Bedrooms',
-    desc: 'Serene, sculpted retreats built for rest — from wardrobes to lighting scenes.',
-    icon: 'bed',
+    title: 'Carpentry Works',
+    desc: 'Custom wardrobes, cabinetry and joinery, crafted in-house to a flawless, factory-finish standard.',
+    icon: 'carpentry',
   },
   {
-    title: "Kids' & Study Rooms",
-    desc: 'Playful yet purposeful spaces that grow with your family.',
-    icon: 'study',
+    title: 'Home Theaters',
+    desc: 'Immersive home cinema rooms engineered for acoustics, ambient lighting and effortless comfort.',
+    icon: 'theater',
   },
   {
-    title: 'Home Office',
-    desc: 'Focused, elegant work-from-home environments that feel nothing like an office.',
-    icon: 'office',
+    title: 'Commercial Interiors',
+    desc: 'Workplace and retail interiors that reflect your brand and work as hard as you do.',
+    icon: 'commercial',
+  },
+  {
+    title: 'Office / Showrooms',
+    desc: 'Functional, elegant offices and showrooms designed to impress clients and boost productivity.',
+    icon: 'showroom',
+  },
+  {
+    title: 'Cafes / Restaurants',
+    desc: 'Hospitality interiors balancing ambience, flow and durability — built to handle the daily rush.',
+    icon: 'cafe',
   },
   {
     title: 'Turnkey Execution',
