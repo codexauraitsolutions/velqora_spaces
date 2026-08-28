@@ -9,7 +9,6 @@ import Footer from './components/Footer'
 import LeadPopup from './components/LeadPopup'
 import SocialDock from './components/SocialDock'
 import Loader from './components/Loader'
-import Cursor from './components/Cursor'
 import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -56,7 +55,6 @@ export default function App() {
     <PopupProvider>
       <div className="grain min-h-screen bg-obsidian-900 text-ivory">
         <Loader />
-        <Cursor />
         <ScrollToTop />
         <Navbar />
         <AnimatedRoutes />

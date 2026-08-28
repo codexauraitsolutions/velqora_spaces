@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
+import Seo from '../components/Seo'
 import Reveal from '../components/Reveal'
 import { usePopup } from '../context/PopupContext'
 import { PORTFOLIO } from '../data/site'
@@ -17,6 +18,11 @@ export default function Portfolio() {
 
   return (
     <div className="bg-obsidian-900 pt-32">
+      <Seo
+        title="Portfolio"
+        description="See interiors designed and built by VELQORASPACES — including the Rudrani Silks showroom in Hyderabad, a full retail interior fit-out from concept to completion."
+        path="/portfolio"
+      />
       <section className="mx-auto max-w-4xl px-6 text-center sm:px-8">
         <Reveal>
           <p className="text-xs uppercase tracking-[0.4em] text-gold-400/70">Portfolio</p>

@@ -9,6 +9,7 @@ import {
   UtensilsCrossed,
   KeyRound,
 } from 'lucide-react'
+import Seo from '../components/Seo'
 import Reveal from '../components/Reveal'
 import { usePopup } from '../context/PopupContext'
 import { SERVICES } from '../data/site'
@@ -28,6 +29,11 @@ export default function Services() {
   const { openPopup } = usePopup()
   return (
     <div className="bg-obsidian-900 pt-32">
+      <Seo
+        title="Services"
+        description="Residential Interiors, Modular Kitchens, Carpentry Works, Home Theaters, Commercial Interiors, Office/Showrooms, Cafes/Restaurants and Turnkey Execution — explore our full range of interior design services."
+        path="/services"
+      />
       <section className="mx-auto max-w-4xl px-6 text-center sm:px-8">
         <Reveal>
           <p className="text-xs uppercase tracking-[0.4em] text-gold-400/70">Services</p>

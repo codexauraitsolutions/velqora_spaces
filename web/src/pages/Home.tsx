@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 
 const HeroScene = lazy(() => import('../three/HeroScene'))
+import Seo from '../components/Seo'
 import Reveal from '../components/Reveal'
 import Counter from '../components/Counter'
 import Marquee from '../components/Marquee'
@@ -42,6 +43,10 @@ export default function Home() {
 
   return (
     <div>
+      <Seo
+        description="VELQORASPACES is an interiors designing studio in Hyderabad crafting bespoke residential and commercial interiors — modular kitchens, carpentry, home theaters, offices, showrooms, cafes and turnkey execution."
+        path="/"
+      />
       {/* HERO */}
       <section ref={heroRef} className="relative flex min-h-[100svh] items-center overflow-hidden bg-obsidian-900">
         <div className="absolute inset-0">

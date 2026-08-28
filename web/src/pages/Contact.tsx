@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { motion } from 'framer-motion'
 import { Check, Mail, MapPin, Phone } from 'lucide-react'
+import Seo from '../components/Seo'
 import Reveal from '../components/Reveal'
 import { BRAND, CITIES } from '../data/site'
 
@@ -16,6 +17,11 @@ export default function Contact() {
 
   return (
     <div className="bg-obsidian-900 pt-32">
+      <Seo
+        title="Contact"
+        description="Get in touch with VELQORASPACES — Interiors Designing Studio at Mirzaguda, Janwada, Rangareddy, Telangana. Call +91 99899 95865 or book a free design consultation."
+        path="/contact"
+      />
       <section className="mx-auto max-w-4xl px-6 text-center sm:px-8">
         <Reveal>
           <p className="text-xs uppercase tracking-[0.4em] text-gold-400/70">Contact</p>

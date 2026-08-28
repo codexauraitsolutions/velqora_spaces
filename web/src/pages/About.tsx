@@ -1,4 +1,5 @@
 import { ArrowRight, Gem, Handshake, Leaf, Ruler } from 'lucide-react'
+import Seo from '../components/Seo'
 import Reveal from '../components/Reveal'
 import Counter from '../components/Counter'
 import { usePopup } from '../context/PopupContext'
@@ -15,6 +16,11 @@ export default function About() {
   const { openPopup } = usePopup()
   return (
     <div className="bg-obsidian-900 pt-32">
+      <Seo
+        title="About"
+        description="VELQORASPACES is built on precision, quiet luxury and single-owner accountability — an interiors designing studio in Hyderabad delivering homes and commercial spaces that age well."
+        path="/about"
+      />
       <section className="mx-auto max-w-5xl px-6 text-center sm:px-8">
         <Reveal>
           <p className="text-xs uppercase tracking-[0.4em] text-gold-400/70">About the Studio</p>
