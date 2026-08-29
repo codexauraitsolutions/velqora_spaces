@@ -1,13 +1,12 @@
 import { useState, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { X, Check, Sparkles, ShieldCheck, Wallet, PhoneCall } from 'lucide-react'
+import { X, Check, Sparkles, ShieldCheck, PhoneCall } from 'lucide-react'
 import { usePopup } from '../context/PopupContext'
 import { CITIES, PROPERTY_TYPES } from '../data/site'
 import logo from '../assets/logo.jpeg'
 
 const PERKS = [
   { icon: Sparkles, text: 'Bespoke 3D design concept' },
-  { icon: Wallet, text: 'Flexible zero-interest EMIs' },
   { icon: ShieldCheck, text: '10-year craftsmanship warranty' },
 ]
 

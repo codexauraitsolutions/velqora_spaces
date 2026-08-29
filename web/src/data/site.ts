@@ -7,6 +7,18 @@ import rudraniSignage from '../assets/portfolio/rudrani-signage.jpg'
 import rudraniDisplayCabinet from '../assets/portfolio/rudrani-display-cabinet.jpg'
 import rudraniHeritageConsole from '../assets/portfolio/rudrani-heritage-console.jpg'
 import rudraniWideView1 from '../assets/portfolio/rudrani-wide-view-1.jpg'
+import residenceMarbleTvWall from '../assets/portfolio/residence-marble-tv-wall.jpg'
+import residenceRibbedTvUnit from '../assets/portfolio/residence-ribbed-tv-unit.jpg'
+import residenceCrockeryBarUnit from '../assets/portfolio/residence-crockery-bar-unit.jpg'
+import residenceModularKitchenWhite from '../assets/portfolio/residence-modular-kitchen-white.jpg'
+import residenceOpenKitchenCounter from '../assets/portfolio/residence-open-kitchen-counter.jpg'
+import residencePoojaUnit from '../assets/portfolio/residence-pooja-unit.jpg'
+import residenceWoodenPartition from '../assets/portfolio/residence-wooden-partition.jpg'
+import residencePastelKitchen from '../assets/portfolio/residence-pastel-kitchen.jpg'
+import residenceFoyerPartition from '../assets/portfolio/residence-foyer-partition.jpg'
+import residenceSlidingWardrobe from '../assets/portfolio/residence-sliding-wardrobe.jpg'
+import residenceGeometricWardrobe from '../assets/portfolio/residence-geometric-wardrobe.jpg'
+import residenceBedroomTvWall from '../assets/portfolio/residence-bedroom-tv-wall.jpg'
 
 export const BRAND = {
   name: 'VELQORASPACES',
@@ -105,7 +117,7 @@ export const PROCESS_STEPS = [
 ]
 
 export const STATS = [
-  { label: 'Projects Delivered', value: 60, suffix: '+' },
+  { label: 'Projects Delivered', value: 200, suffix: '+' },
   { label: 'Client Rating', value: 4.9, suffix: '/5' },
   { label: 'Years of Craft', value: 9, suffix: '+' },
   { label: 'Design Warranty', value: 10, suffix: ' yrs' },
@@ -139,4 +151,16 @@ export const PORTFOLIO = [
   { id: 4, title: 'Gilded Display Cabinet', category: 'Display Furniture', city: 'Hyderabad', img: rudraniDisplayCabinet },
   { id: 5, title: 'Heritage Prayer Console', category: 'Decor Detail', city: 'Hyderabad', img: rudraniHeritageConsole },
   { id: 6, title: 'Showroom Floor', category: 'Retail Interior', city: 'Hyderabad', img: rudraniWideView1 },
+  { id: 7, title: 'Marble TV Wall Panel', category: 'Living Room', city: 'Hyderabad', img: residenceMarbleTvWall },
+  { id: 8, title: 'Ribbed Wood TV Unit', category: 'Living Room', city: 'Hyderabad', img: residenceRibbedTvUnit },
+  { id: 9, title: 'Crockery & Bar Unit', category: 'Dining', city: 'Hyderabad', img: residenceCrockeryBarUnit },
+  { id: 10, title: 'Modular Kitchen', category: 'Kitchen', city: 'Hyderabad', img: residenceModularKitchenWhite },
+  { id: 11, title: 'Open Kitchen Counter', category: 'Kitchen', city: 'Hyderabad', img: residenceOpenKitchenCounter },
+  { id: 12, title: 'Pooja Unit', category: 'Decor Detail', city: 'Hyderabad', img: residencePoojaUnit },
+  { id: 13, title: 'Wooden Partition Display', category: 'Living Room', city: 'Hyderabad', img: residenceWoodenPartition },
+  { id: 14, title: 'Pastel Kitchen Cabinets', category: 'Kitchen', city: 'Hyderabad', img: residencePastelKitchen },
+  { id: 15, title: 'Foyer Partition', category: 'Entrance', city: 'Hyderabad', img: residenceFoyerPartition },
+  { id: 16, title: 'Sliding Wardrobe', category: 'Bedroom', city: 'Hyderabad', img: residenceSlidingWardrobe },
+  { id: 17, title: 'Geometric Wardrobe', category: 'Bedroom', city: 'Hyderabad', img: residenceGeometricWardrobe },
+  { id: 18, title: 'Bedroom TV Wall', category: 'Bedroom', city: 'Hyderabad', img: residenceBedroomTvWall },
 ]
