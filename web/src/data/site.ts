@@ -28,16 +28,16 @@ export const BRAND = {
   phoneRaw: '919989995865',
   email: 'interiors@velqoraspaces.com',
   address: '1-37, Mirzaguda, Janwada Main Road, Rangareddy, Telangana 500075',
-  mapsUrl: 'https://www.google.com/maps?q=17.4075929,78.2630545&z=17&hl=en',
-  mapsEmbedUrl: 'https://maps.google.com/maps?q=17.4075929,78.2630545&z=16&hl=en&output=embed',
-  lat: 17.4075929,
-  lng: 78.2630545,
+  mapsUrl: 'https://www.google.com/maps?q=17.4077112,78.2629449&z=17&hl=en',
+  mapsEmbedUrl: 'https://maps.google.com/maps?q=17.4077112,78.2629449&z=16&hl=en&output=embed',
+  lat: 17.4077112,
+  lng: 78.2629449,
 }
 
 export const SOCIALS = [
-  { name: 'Instagram', href: 'https://instagram.com/velqoraspaces', icon: 'instagram' },
-  { name: 'Pinterest', href: 'https://pinterest.com/velqoraspaces', icon: 'pinterest' },
-  { name: 'Facebook', href: 'https://facebook.com/velqoraspaces', icon: 'facebook' },
+  { name: 'Instagram', href: 'https://www.instagram.com/velqoraspaces/', icon: 'instagram' },
+  { name: 'Pinterest', href: 'https://in.pinterest.com/velqoraspaces/', icon: 'pinterest' },
+  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61592090964552', icon: 'facebook' },
   { name: 'YouTube', href: 'https://youtube.com/@velqoraspaces', icon: 'youtube' },
   { name: 'WhatsApp', href: 'https://wa.me/919989995865', icon: 'whatsapp' },
 ] as const
