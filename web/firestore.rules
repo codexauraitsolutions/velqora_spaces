@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// Paste into Firebase Console → Firestore Database → Rules, then Publish.
+// Visitors may only CREATE a well-formed lead; nobody can read, list,
+// edit or delete leads from the website. View leads in the Firebase Console.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /consultation_leads/{leadId} {
+      allow read, update, delete: if false;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'propertyType', 'city', 'scope', 'budget', 'timeline',
+          'name', 'phone', 'email', 'callbackSlot', 'whatsappOptIn',
+          'utmSource', 'utmMedium', 'utmCampaign', 'utmTerm', 'utmContent', 'gclid',
+          'pagePath', 'referrer', 'userAgent',
+          'source', 'status', 'createdAt'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 80
+        && request.resource.data.phone is string
+        && request.resource.data.phone.matches('^[6-9][0-9]{9}$')
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 120
+        && request.resource.data.propertyType is string
+        && request.resource.data.propertyType.size() <= 40
+        && request.resource.data.city is string
+        && request.resource.data.city.size() <= 40
+        && request.resource.data.scope is list
+        && request.resource.data.scope.size() <= 10
+        && request.resource.data.whatsappOptIn is bool
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

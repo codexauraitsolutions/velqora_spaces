@@ -17,6 +17,20 @@ import Portfolio from './pages/Portfolio'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Contact from './pages/Contact'
+import { initAnalytics, trackPageView } from './lib/analytics'
+
+function RouteAnalytics() {
+  const { pathname, search } = useLocation()
+  useEffect(() => {
+    initAnalytics()
+  }, [])
+  useEffect(() => {
+    // Wait for the page transition + <Seo> title update before reporting.
+    const timer = window.setTimeout(() => trackPageView(pathname + search), 600)
+    return () => window.clearTimeout(timer)
+  }, [pathname, search])
+  return null
+}
 
 function AutoPopupTrigger() {
   const { openPopup } = usePopup()
@@ -60,6 +74,7 @@ export default function App() {
       <div className="grain min-h-screen bg-obsidian-900 text-ivory">
         <Loader />
         <ScrollToTop />
+        <RouteAnalytics />
         <Navbar />
         <AnimatedRoutes />
         <Footer />

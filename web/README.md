@@ -28,3 +28,14 @@ Almost everything text/data-driven on the site lives in [`src/data/site.ts`](src
 ## Admin panel
 
 Not built yet — this is the public-facing site only. Forms (lead popup, contact page) currently simulate a submission locally; wiring them to a real backend/CRM is future work.
+
+## Consultation leads (Firebase) & Google Analytics
+
+1. Copy `.env.example` → `.env.local` and fill in the Firebase web-app config and the GA4 Measurement ID.
+   Add the same `VITE_*` keys in Vercel → Settings → Environment Variables, then redeploy.
+2. Firebase Console → Build → Firestore Database → Create database (production mode, region `asia-south1`).
+3. Paste `firestore.rules` into Firestore → Rules and publish. Visitors can only create leads; read them in the
+   Firebase Console under the `consultation_leads` collection.
+4. GA4 events sent: `page_view` (every route), `consultation_open`, `form_start`, `consultation_step_complete`,
+   `generate_lead` (mark this as a Key event in GA4), `consultation_error`, `consultation_abandon`,
+   `consultation_whatsapp_click`.
