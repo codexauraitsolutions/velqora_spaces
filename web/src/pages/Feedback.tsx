@@ -162,7 +162,7 @@ export default function Feedback() {
                   Your review is now live on our website. It means a lot to our whole studio.
                 </p>
                 <Link
-                  to="/#testimonials"
+                  to="/testimonials"
                   className="group mt-7 inline-flex items-center gap-2 rounded-full border border-gold-400/40 px-6 py-2.5 text-sm text-gold-300 transition hover:bg-gold-400/10"
                 >
                   See it on the website

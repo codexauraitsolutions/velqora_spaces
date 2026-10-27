@@ -18,6 +18,7 @@ import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Contact from './pages/Contact'
 import Feedback from './pages/Feedback'
+import TestimonialsPage from './pages/TestimonialsPage'
 import { initAnalytics, trackPageView } from './lib/analytics'
 
 function RouteAnalytics() {
@@ -65,6 +66,7 @@ function AnimatedRoutes() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/testimonials" element={<TestimonialsPage />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

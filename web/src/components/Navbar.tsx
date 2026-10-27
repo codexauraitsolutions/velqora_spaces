@@ -25,16 +25,17 @@ export default function Navbar() {
           scrolled ? 'border-b border-gold-400/15 bg-obsidian-900/80 backdrop-blur-xl' : 'bg-transparent'
         }`}
       >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-8">
-          <Link to="/" className="flex items-center gap-3">
+        {/* lg+: logo | centred menu | actions, so the menu sits in the true centre */}
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
+          <Link to="/" className="flex items-center gap-3 lg:justify-self-start">
             <img src={logo} alt="VELQORASPACES logo" className="h-11 w-11 rounded-full object-cover ring-1 ring-gold-400/40" />
-            <span className="hidden flex-col leading-none sm:flex">
+            <span className="hidden flex-col leading-none sm:flex lg:hidden xl:flex">
               <span className="font-display text-lg tracking-[0.15em] text-ivory">VELQORA<span className="text-gold-300">SPACES</span></span>
               <span className="text-[9px] uppercase tracking-[0.35em] text-gold-400/60">Interiors Designing Studio</span>
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex">
+          <nav className="hidden items-center gap-6 lg:flex xl:gap-8">
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.label}
@@ -50,16 +51,16 @@ export default function Navbar() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 lg:justify-self-end">
             <a
               href={`tel:+${BRAND.phoneRaw}`}
-              className="hidden items-center gap-2 text-sm text-ivory/70 hover:text-gold-300 md:flex"
+              className="hidden items-center gap-2 whitespace-nowrap text-sm text-ivory/70 hover:text-gold-300 md:flex lg:hidden"
             >
               <Phone className="h-4 w-4" /> {BRAND.phoneDisplay}
             </a>
             <button
               onClick={openPopup}
-              className="hidden rounded-full bg-gold-gradient px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-obsidian-900 transition hover:shadow-gold sm:inline-block"
+              className="hidden whitespace-nowrap rounded-full bg-gold-gradient px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-obsidian-900 transition hover:shadow-gold sm:inline-block"
             >
               Book Consultation
             </button>

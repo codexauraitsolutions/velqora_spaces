@@ -5,7 +5,9 @@ export const MAX_PHOTOS = 5
 const MAX_EDGE = 1600
 const QUALITY = 0.82
 
-const CDN_URL = (import.meta.env.VITE_PHOTOS_CDN_URL as string | undefined)?.replace(/\/+$/, '')
+// Photos are served straight from the bucket's public feedback/ folder.
+// VITE_PHOTOS_CDN_URL can point at a CDN later without a code change.
+const CDN_URL = ((import.meta.env.VITE_PHOTOS_CDN_URL as string | undefined) || 'https://velqora-spaces.s3.ap-south-1.amazonaws.com').replace(/\/+$/, '')
 
 /** Public URL for a stored photo key, or '' until the CDN is configured. */
 export function photoUrl(key: string) {

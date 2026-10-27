@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Quote, Star, X } from 'lucide-react'
 import Reveal from './Reveal'
@@ -18,8 +18,11 @@ function Stars({ value, className = 'h-4 w-4' }: { value: number; className?: st
   )
 }
 
-/** Client reviews submitted through /feedback. Hidden until at least one exists. */
-export default function Testimonials() {
+/**
+ * Client reviews submitted through /feedback. On Home (default) it loads on
+ * approach and stays hidden until a review exists; `page` renders /testimonials.
+ */
+export default function Testimonials({ page = false }: { page?: boolean }) {
   const { hash } = useLocation()
   const sentinelRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -27,19 +30,20 @@ export default function Testimonials() {
   const nearView = useInView(sentinelRef, { once: true, margin: '0px 0px 800px 0px' })
   const wantsSection = hash === '#testimonials'
   const [reviews, setReviews] = useState<Testimonial[]>([])
-  const [showAll, setShowAll] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const [viewer, setViewer] = useState<Viewer>(null)
 
   useEffect(() => {
-    if (!nearView && !wantsSection) return
+    if (!page && !nearView && !wantsSection) return
     let cancelled = false
-    fetchTestimonials()
+    fetchTestimonials(page ? 60 : 12)
       .then((list) => !cancelled && setReviews(list))
       .catch((err) => console.error('Could not load testimonials', err))
+      .finally(() => !cancelled && setLoaded(true))
     return () => {
       cancelled = true
     }
-  }, [nearView, wantsSection])
+  }, [page, nearView, wantsSection])
 
   useEffect(() => {
     if (wantsSection && reviews.length > 0) {
@@ -47,19 +51,25 @@ export default function Testimonials() {
     }
   }, [wantsSection, reviews.length])
 
-  if (reviews.length === 0) return <div ref={sentinelRef} aria-hidden />
+  if (reviews.length === 0 && !(page && loaded)) return <div ref={sentinelRef} aria-hidden className={page ? 'min-h-screen' : ''} />
 
-  const average = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-  const visible = showAll ? reviews : reviews.slice(0, INITIAL_VISIBLE)
+  const average = reviews.length ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0
+  const visible = page ? reviews : reviews.slice(0, INITIAL_VISIBLE)
+  const Heading = page ? 'h1' : 'h2'
 
   return (
-    <section id="testimonials" ref={sectionRef} className="relative overflow-clip bg-obsidian-900 py-28 sm:py-36">
+    <section
+      id="testimonials"
+      ref={sectionRef}
+      className={`relative overflow-clip bg-obsidian-900 ${page ? 'min-h-screen pb-28 pt-36 sm:pt-40' : 'py-28 sm:py-36'}`}
+    >
       <div ref={sentinelRef} aria-hidden />
       <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-gold-400/5 blur-3xl" />
       <div className="relative mx-auto max-w-7xl px-6 sm:px-8">
         <Reveal className="mx-auto max-w-xl text-center">
           <p className="text-xs uppercase tracking-[0.4em] text-gold-400/70">Client Voices</p>
-          <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">Homes people fall in love with.</h2>
+          <Heading className="mt-4 font-display text-4xl text-ivory sm:text-5xl">Homes people fall in love with.</Heading>
+          {reviews.length > 0 && (
           <div className="mt-5 inline-flex items-center gap-3 rounded-full border border-gold-400/20 bg-gold-400/5 px-4 py-2">
             <Stars value={Math.round(average)} />
             <span className="text-sm text-ivory/70">
@@ -67,6 +77,10 @@ export default function Testimonials() {
               {reviews.length === 1 ? ' review' : ' reviews'}
             </span>
           </div>
+          )}
+          {page && reviews.length === 0 && (
+            <p className="mt-6 text-ivory/55">Client reviews will appear here soon.</p>
+          )}
         </Reveal>
 
         <div className="mt-16 flex flex-wrap justify-center gap-6">
@@ -90,7 +104,14 @@ export default function Testimonials() {
                         aria-label={`View photo ${idx + 1} from ${t.name}`}
                         className="aspect-square w-14 overflow-hidden rounded-md border border-white/10 transition hover:border-gold-400/60"
                       >
-                        <img src={photoUrl(key)} alt="" loading="lazy" className="h-full w-full object-cover" />
+                        <img
+                          src={photoUrl(key)}
+                          alt=""
+                          loading="lazy"
+                          // Never show a broken-image icon if a photo can't be loaded.
+                          onError={(e) => ((e.currentTarget.parentElement as HTMLElement).style.display = 'none')}
+                          className="h-full w-full object-cover"
+                        />
                       </button>
                     ))}
                   </div>
@@ -106,15 +127,28 @@ export default function Testimonials() {
           ))}
         </div>
 
-        {reviews.length > INITIAL_VISIBLE && !showAll && (
+        {!page && reviews.length > INITIAL_VISIBLE && (
           <div className="mt-10 text-center">
-            <button
-              onClick={() => setShowAll(true)}
-              className="rounded-full border border-gold-400/40 px-6 py-2.5 text-sm text-gold-300 transition hover:bg-gold-400/10"
+            <Link
+              to="/testimonials"
+              className="inline-block rounded-full border border-gold-400/40 px-6 py-2.5 text-sm text-gold-300 transition hover:bg-gold-400/10"
             >
-              Read more reviews
-            </button>
+              Read all reviews
+            </Link>
           </div>
+        )}
+
+        {page && (
+          <Reveal className="mx-auto mt-20 max-w-md text-center">
+            <p className="font-display text-2xl text-ivory">Worked with us?</p>
+            <p className="mt-2 text-sm text-ivory/55">We'd love to hear how your space feels now.</p>
+            <Link
+              to="/feedback"
+              className="mt-6 inline-block rounded-full bg-gold-gradient px-7 py-3 text-xs font-semibold uppercase tracking-widest text-obsidian-900 transition hover:shadow-gold"
+            >
+              Share your experience
+            </Link>
+          </Reveal>
         )}
       </div>
 
