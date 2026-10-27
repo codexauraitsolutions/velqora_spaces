@@ -46,3 +46,6 @@ Not built yet — this is the public-facing site only. Forms (lead popup, contac
 - Reviews are saved to the Firestore `testimonials` collection and appear on the Home page immediately.
 - To take a review down: Firebase Console → Firestore → `testimonials` → open it → set `hidden` to `true`.
 - The Testimonials section stays hidden until the first review exists.
+- Clients can attach up to 5 photos. They are shrunk in the browser, uploaded to S3 (`feedback/` folder) through
+  short-lived links from `api/feedback-upload-url.ts`, and shown from CloudFront (`VITE_PHOTOS_CDN_URL`).
+  The AWS keys live only in Vercel env vars / `.env.local` (no `VITE_` prefix).

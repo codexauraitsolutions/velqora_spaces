@@ -83,6 +83,8 @@ export type TestimonialInput = {
   project: string
   rating: number
   quote: string
+  /** S3 keys of up to 5 photos, e.g. feedback/2026-10/<id>.jpg */
+  photos: string[]
 }
 
 export type Testimonial = TestimonialInput & { id: string; createdAt: number }
@@ -115,6 +117,7 @@ export async function fetchTestimonials(max = 12): Promise<Testimonial[]> {
         project: String(data.project ?? ''),
         rating: Number(data.rating ?? 5),
         quote: String(data.quote ?? ''),
+        photos: Array.isArray(data.photos) ? data.photos.filter((p: unknown) => typeof p === 'string').slice(0, 5) : [],
         createdAt: data.createdAt?.toMillis?.() ?? 0,
       }
     })

@@ -43,9 +43,11 @@ service cloud.firestore {
 
       allow create: if
         request.resource.data.keys().hasOnly([
-          'name', 'city', 'project', 'rating', 'quote',
+          'name', 'city', 'project', 'rating', 'quote', 'photos',
           'consent', 'hidden', 'source', 'createdAt'
         ])
+        && (!('photos' in request.resource.data)
+            || (request.resource.data.photos is list && request.resource.data.photos.size() <= 5))
         && request.resource.data.name is string
         && request.resource.data.name.size() >= 2
         && request.resource.data.name.size() <= 60

@@ -1,10 +1,13 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, MapPin, Star, User, ArrowRight } from 'lucide-react'
+import { Check, MapPin, Star, User, ArrowRight, ImagePlus, X } from 'lucide-react'
 import Seo from '../components/Seo'
 import { submitTestimonial } from '../lib/firebase'
+import { MAX_PHOTOS, compressPhoto, uploadPhotos } from '../lib/photos'
 import { trackEvent } from '../lib/analytics'
+
+type PickedPhoto = { id: string; file: File; preview: string }
 import logo from '../assets/logo.jpeg'
 
 const PROJECT_OPTIONS = [
@@ -35,12 +38,38 @@ export default function Feedback() {
   const [quote, setQuote] = useState('')
   const [consent, setConsent] = useState(true)
   const [website, setWebsite] = useState('') // honeypot
+  const [photos, setPhotos] = useState<PickedPhoto[]>([])
+  const [uploaded, setUploaded] = useState<number | null>(null)
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
+  const fileInput = useRef<HTMLInputElement>(null)
+  const photosRef = useRef(photos)
+  photosRef.current = photos
 
   useEffect(() => {
     trackEvent('feedback_page_view')
+    return () => photosRef.current.forEach((p) => URL.revokeObjectURL(p.preview))
   }, [])
+
+  function addPhotos(e: ChangeEvent<HTMLInputElement>) {
+    const picked = Array.from(e.target.files ?? []).filter((f) => f.type.startsWith('image/'))
+    e.target.value = '' // allow re-picking the same file
+    const room = MAX_PHOTOS - photos.length
+    if (picked.length > room) setError(`You can add up to ${MAX_PHOTOS} photos.`)
+    else setError('')
+    setPhotos((prev) => [
+      ...prev,
+      ...picked.slice(0, room).map((file) => ({ id: crypto.randomUUID(), file, preview: URL.createObjectURL(file) })),
+    ])
+  }
+
+  function removePhoto(id: string) {
+    setPhotos((prev) => {
+      const gone = prev.find((p) => p.id === id)
+      if (gone) URL.revokeObjectURL(gone.preview)
+      return prev.filter((p) => p.id !== id)
+    })
+  }
 
   function validate() {
     if (!rating) return 'Please choose a star rating.'
@@ -64,19 +93,29 @@ export default function Feedback() {
 
     setStatus('submitting')
     try {
+      let photoKeys: string[] = []
+      if (photos.length > 0) {
+        setUploaded(0)
+        const blobs = await Promise.all(photos.map((p) => compressPhoto(p.file)))
+        photoKeys = await uploadPhotos(blobs, setUploaded)
+      }
       await submitTestimonial({
         name: name.trim(),
         city: city.trim(),
         project,
         rating,
         quote: quote.trim(),
+        photos: photoKeys,
       })
       setStatus('success')
-      trackEvent('feedback_submit', { rating, project })
+      trackEvent('feedback_submit', { rating, project, photos: photoKeys.length })
     } catch (err) {
       console.error('Feedback submit failed', err)
       setStatus('error')
+      setError(err instanceof Error && err.message.includes('photo') ? err.message : '')
       trackEvent('feedback_error', { message: err instanceof Error ? err.message : 'unknown' })
+    } finally {
+      setUploaded(null)
     }
   }
 
@@ -220,6 +259,42 @@ export default function Feedback() {
                   {quote.length}/{MAX_QUOTE}
                 </p>
 
+                {/* Photos */}
+                <p className="mt-4 text-xs uppercase tracking-widest text-ivory/50">
+                  Photos of your space{' '}
+                  <span className="normal-case tracking-normal text-ivory/35">
+                    · optional, up to {MAX_PHOTOS}
+                  </span>
+                </p>
+                <div className="mt-2.5 grid grid-cols-3 gap-2 sm:grid-cols-5">
+                  {photos.map((p) => (
+                    <div key={p.id} className="group relative aspect-square overflow-hidden rounded-lg border border-white/10">
+                      <img src={p.preview} alt="" className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => removePhoto(p.id)}
+                        disabled={status === 'submitting'}
+                        aria-label="Remove photo"
+                        className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-obsidian-900/80 text-ivory/80 transition hover:text-gold-300"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                  {photos.length < MAX_PHOTOS && (
+                    <button
+                      type="button"
+                      onClick={() => fileInput.current?.click()}
+                      disabled={status === 'submitting'}
+                      className="flex aspect-square flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-gold-400/30 text-ivory/50 transition hover:border-gold-400/70 hover:text-gold-300"
+                    >
+                      <ImagePlus className="h-5 w-5" strokeWidth={1.5} />
+                      <span className="text-[11px]">{photos.length === 0 ? 'Add photos' : 'Add more'}</span>
+                    </button>
+                  )}
+                </div>
+                <input ref={fileInput} type="file" accept="image/*" multiple onChange={addPhotos} className="hidden" />
+
                 {/* Honeypot */}
                 <input
                   type="text"
@@ -255,11 +330,14 @@ export default function Feedback() {
                   className="mt-6 flex h-[50px] w-full items-center justify-center rounded-lg bg-gold-gradient text-sm font-semibold tracking-wide text-obsidian-900 transition hover:shadow-gold disabled:opacity-70"
                 >
                   {status === 'submitting' ? (
-                    <motion.span
-                      className="h-4 w-4 rounded-full border-2 border-obsidian-900/40 border-t-obsidian-900"
-                      animate={{ rotate: 360 }}
-                      transition={{ repeat: Infinity, duration: 0.7, ease: 'linear' }}
-                    />
+                    <span className="flex items-center gap-2.5">
+                      <motion.span
+                        className="h-4 w-4 rounded-full border-2 border-obsidian-900/40 border-t-obsidian-900"
+                        animate={{ rotate: 360 }}
+                        transition={{ repeat: Infinity, duration: 0.7, ease: 'linear' }}
+                      />
+                      {uploaded !== null && `Uploading photos ${uploaded}/${photos.length}…`}
+                    </span>
                   ) : (
                     'Submit my review'
                   )}

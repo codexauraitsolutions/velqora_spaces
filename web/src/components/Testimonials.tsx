@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useInView } from 'framer-motion'
-import { Quote, Star } from 'lucide-react'
+import { AnimatePresence, motion, useInView } from 'framer-motion'
+import { ChevronLeft, ChevronRight, Quote, Star, X } from 'lucide-react'
 import Reveal from './Reveal'
 import { fetchTestimonials, type Testimonial } from '../lib/firebase'
+import { photoUrl } from '../lib/photos'
 
 const INITIAL_VISIBLE = 6
 
@@ -27,6 +28,7 @@ export default function Testimonials() {
   const wantsSection = hash === '#testimonials'
   const [reviews, setReviews] = useState<Testimonial[]>([])
   const [showAll, setShowAll] = useState(false)
+  const [viewer, setViewer] = useState<Viewer>(null)
 
   useEffect(() => {
     if (!nearView && !wantsSection) return
@@ -78,6 +80,21 @@ export default function Testimonials() {
                 <blockquote className="mt-5 flex-1 whitespace-pre-line text-[15px] leading-relaxed text-ivory/70">
                   {t.quote}
                 </blockquote>
+                {t.photos.length > 0 && photoUrl(t.photos[0]) && (
+                  <div className="mt-5 flex gap-2">
+                    {t.photos.map((key, idx) => (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => setViewer({ urls: t.photos.map(photoUrl), index: idx, name: t.name })}
+                        aria-label={`View photo ${idx + 1} from ${t.name}`}
+                        className="aspect-square w-14 overflow-hidden rounded-md border border-white/10 transition hover:border-gold-400/60"
+                      >
+                        <img src={photoUrl(key)} alt="" loading="lazy" className="h-full w-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <figcaption className="mt-6 border-t border-white/5 pt-4">
                   <p className="font-display text-lg text-ivory">{t.name}</p>
                   <p className="text-xs uppercase tracking-widest text-gold-400/60">
@@ -100,6 +117,82 @@ export default function Testimonials() {
           </div>
         )}
       </div>
+
+      <PhotoViewer viewer={viewer} onChange={setViewer} />
     </section>
+  )
+}
+
+type Viewer = { urls: string[]; index: number; name: string } | null
+
+function PhotoViewer({ viewer, onChange }: { viewer: Viewer; onChange: (v: Viewer) => void }) {
+  useEffect(() => {
+    if (!viewer) return
+    const step = (d: number) =>
+      onChange({ ...viewer, index: (viewer.index + d + viewer.urls.length) % viewer.urls.length })
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onChange(null)
+      if (e.key === 'ArrowRight') step(1)
+      if (e.key === 'ArrowLeft') step(-1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [viewer, onChange])
+
+  return (
+    <AnimatePresence>
+      {viewer && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Photos from ${viewer.name}`}
+          data-lenis-prevent
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => onChange(null)}
+        >
+          <motion.img
+            key={viewer.urls[viewer.index]}
+            src={viewer.urls[viewer.index]}
+            alt={`Photo ${viewer.index + 1} from ${viewer.name}`}
+            className="max-h-[85vh] max-w-full rounded-lg object-contain shadow-2xl"
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            onClick={() => onChange(null)}
+            aria-label="Close"
+            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-ivory/80 transition hover:text-gold-300"
+          >
+            <X className="h-5 w-5" />
+          </button>
+          {viewer.urls.length > 1 && (
+            <>
+              {([-1, 1] as const).map((d) => (
+                <button
+                  key={d}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onChange({ ...viewer, index: (viewer.index + d + viewer.urls.length) % viewer.urls.length })
+                  }}
+                  aria-label={d < 0 ? 'Previous photo' : 'Next photo'}
+                  className={`absolute top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-ivory/80 transition hover:text-gold-300 ${
+                    d < 0 ? 'left-3' : 'right-3'
+                  }`}
+                >
+                  {d < 0 ? <ChevronLeft className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+                </button>
+              ))}
+              <p className="absolute bottom-5 left-1/2 -translate-x-1/2 text-xs tracking-widest text-ivory/60">
+                {viewer.index + 1} / {viewer.urls.length}
+              </p>
+            </>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
