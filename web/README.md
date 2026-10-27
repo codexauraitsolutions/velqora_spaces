@@ -39,3 +39,10 @@ Not built yet — this is the public-facing site only. Forms (lead popup, contac
 4. GA4 events sent: `page_view` (every route), `consultation_open`, `form_start`, `consultation_step_complete`,
    `generate_lead` (mark this as a Key event in GA4), `consultation_error`, `consultation_abandon`,
    `consultation_whatsapp_click`.
+
+## Client feedback → Testimonials
+
+- Send clients `https://www.velqoraspaces.com/feedback` (add `?name=Ravi%20Kumar` to prefill their name).
+- Reviews are saved to the Firestore `testimonials` collection and appear on the Home page immediately.
+- To take a review down: Firebase Console → Firestore → `testimonials` → open it → set `hidden` to `true`.
+- The Testimonials section stays hidden until the first review exists.

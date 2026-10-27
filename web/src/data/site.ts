@@ -124,27 +124,6 @@ export const STATS = [
   { label: 'Design Warranty', value: 10, suffix: ' yrs' },
 ]
 
-export const TESTIMONIALS = [
-  {
-    name: 'Ananya Rao',
-    city: 'Hyderabad',
-    quote:
-      'VELQORASPACES turned a blank 3BHK shell into something that felt like us within eight weeks. The gold detailing in our living room is still the first thing guests mention.',
-  },
-  {
-    name: 'Karthik Iyer',
-    city: 'Bengaluru',
-    quote:
-      'What struck us was the precision — every drawer, every light scene was exactly as visualised. Zero surprises on site, which is rare in this industry.',
-  },
-  {
-    name: 'Meera & Arjun Nair',
-    city: 'Chennai',
-    quote:
-      'A single point of contact throughout, transparent costing, and a design language that felt genuinely bespoke rather than templated.',
-  },
-]
-
 export const PORTFOLIO = [
   { id: 1, title: 'Rudrani Silks Showroom', category: 'Retail Interior', city: 'Hyderabad', img: rudraniWideView2 },
   { id: 2, title: 'The Lotus Lounge', category: 'Seating & Display', city: 'Hyderabad', img: rudraniLounge },

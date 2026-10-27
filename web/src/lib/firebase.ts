@@ -1,5 +1,5 @@
 // Firebase is loaded lazily so the SDK never weighs down the first paint —
-// it is only fetched when a visitor actually submits a lead.
+// it is only fetched when a visitor submits a form or scrolls to reviews.
 
 import type { Firestore } from 'firebase/firestore'
 
@@ -13,6 +13,7 @@ const firebaseConfig = {
 }
 
 export const LEADS_COLLECTION = 'consultation_leads'
+export const TESTIMONIALS_COLLECTION = 'testimonials'
 
 let dbPromise: Promise<Firestore> | null = null
 
@@ -74,4 +75,49 @@ export async function submitConsultationLead(lead: ConsultationLead) {
     createdAt: serverTimestamp(),
   })
   return `VS-${ref.id.slice(0, 6).toUpperCase()}`
+}
+
+export type TestimonialInput = {
+  name: string
+  city: string
+  project: string
+  rating: number
+  quote: string
+}
+
+export type Testimonial = TestimonialInput & { id: string; createdAt: number }
+
+/** Client reviews publish immediately; set `hidden: true` in the Firebase Console to take one down. */
+export async function submitTestimonial(review: TestimonialInput) {
+  const db = await getDb()
+  const { collection, addDoc, serverTimestamp } = await import('firebase/firestore')
+  await addDoc(collection(db, TESTIMONIALS_COLLECTION), {
+    ...review,
+    consent: true,
+    hidden: false,
+    source: 'website_feedback_page',
+    createdAt: serverTimestamp(),
+  })
+}
+
+export async function fetchTestimonials(max = 12): Promise<Testimonial[]> {
+  const db = await getDb()
+  const { collection, getDocs, query, where, limit } = await import('firebase/firestore')
+  // Sorted here rather than with orderBy, so no composite index is needed.
+  const snap = await getDocs(query(collection(db, TESTIMONIALS_COLLECTION), where('hidden', '==', false), limit(60)))
+  return snap.docs
+    .map((d) => {
+      const data = d.data()
+      return {
+        id: d.id,
+        name: String(data.name ?? ''),
+        city: String(data.city ?? ''),
+        project: String(data.project ?? ''),
+        rating: Number(data.rating ?? 5),
+        quote: String(data.quote ?? ''),
+        createdAt: data.createdAt?.toMillis?.() ?? 0,
+      }
+    })
+    .sort((a, b) => b.createdAt - a.createdAt)
+    .slice(0, max)
 }

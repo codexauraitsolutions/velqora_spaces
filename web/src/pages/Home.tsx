@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import {
   ArrowRight,
   ArrowUpRight,
-  Quote,
   Home as HomeIcon,
   ChefHat,
   Hammer,
@@ -21,7 +20,8 @@ import Reveal from '../components/Reveal'
 import Counter from '../components/Counter'
 import Marquee from '../components/Marquee'
 import { usePopup } from '../context/PopupContext'
-import { CITIES, PORTFOLIO, PROCESS_STEPS, SERVICES, STATS, TESTIMONIALS } from '../data/site'
+import { CITIES, PORTFOLIO, PROCESS_STEPS, SERVICES, STATS } from '../data/site'
+import Testimonials from '../components/Testimonials'
 
 const SERVICE_ICONS = {
   residential: HomeIcon,
@@ -255,30 +255,7 @@ export default function Home() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="relative overflow-hidden bg-obsidian-900 py-28 sm:py-36">
-        <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-gold-400/5 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl px-6 sm:px-8">
-          <Reveal className="mx-auto max-w-xl text-center">
-            <p className="text-xs uppercase tracking-[0.4em] text-gold-400/70">Client Voices</p>
-            <h2 className="mt-4 font-display text-4xl text-ivory sm:text-5xl">Homes people fall in love with.</h2>
-          </Reveal>
-
-          <div className="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
-                <div className="card-glass flex h-full flex-col rounded-2xl p-8">
-                  <Quote className="h-7 w-7 text-gold-400/40" />
-                  <p className="mt-5 flex-1 text-[15px] leading-relaxed text-ivory/70">{t.quote}</p>
-                  <div className="mt-6 border-t border-white/5 pt-4">
-                    <p className="font-display text-lg text-ivory">{t.name}</p>
-                    <p className="text-xs uppercase tracking-widest text-gold-400/60">{t.city}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Testimonials />
 
       {/* CTA */}
       <section className="relative overflow-hidden bg-obsidian-200/40 py-24">

@@ -17,6 +17,7 @@ import Portfolio from './pages/Portfolio'
 import Blog from './pages/Blog'
 import BlogPost from './pages/BlogPost'
 import Contact from './pages/Contact'
+import Feedback from './pages/Feedback'
 import { initAnalytics, trackPageView } from './lib/analytics'
 
 function RouteAnalytics() {
@@ -35,7 +36,10 @@ function RouteAnalytics() {
 function AutoPopupTrigger() {
   const { openPopup } = usePopup()
   useEffect(() => {
-    const timer = window.setTimeout(() => openPopup(), 18000)
+    // Never interrupt a client who is writing a review.
+    const timer = window.setTimeout(() => {
+      if (!window.location.pathname.startsWith('/feedback')) openPopup()
+    }, 18000)
     return () => window.clearTimeout(timer)
   }, [openPopup])
   return null
@@ -60,6 +64,7 @@ function AnimatedRoutes() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/feedback" element={<Feedback />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

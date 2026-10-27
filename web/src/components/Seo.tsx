@@ -19,10 +19,12 @@ export default function Seo({
   title,
   description,
   path = '',
+  noindex = false,
 }: {
   title?: string
   description?: string
   path?: string
+  noindex?: boolean
 }) {
   useEffect(() => {
     const fullTitle = title ? `${title} | VELQORASPACES` : DEFAULT_TITLE
@@ -36,6 +38,7 @@ export default function Seo({
     setMeta('property', 'og:url', url)
     setMeta('name', 'twitter:title', fullTitle)
     setMeta('name', 'twitter:description', desc)
+    setMeta('name', 'robots', noindex ? 'noindex, nofollow' : 'index, follow')
 
     let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
     if (!canonical) {
@@ -44,7 +47,7 @@ export default function Seo({
       document.head.appendChild(canonical)
     }
     canonical.href = url
-  }, [title, description, path])
+  }, [title, description, path, noindex])
 
   return null
 }

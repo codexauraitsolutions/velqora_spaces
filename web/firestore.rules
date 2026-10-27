@@ -35,6 +35,36 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
     }
 
+    // Client reviews from /feedback. They go live immediately; set
+    // `hidden` to true in the Firebase Console to take one down.
+    match /testimonials/{reviewId} {
+      allow read: if resource.data.hidden == false;
+      allow update, delete: if false;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'name', 'city', 'project', 'rating', 'quote',
+          'consent', 'hidden', 'source', 'createdAt'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 2
+        && request.resource.data.name.size() <= 60
+        && request.resource.data.city is string
+        && request.resource.data.city.size() >= 2
+        && request.resource.data.city.size() <= 60
+        && request.resource.data.project is string
+        && request.resource.data.project.size() <= 60
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.quote is string
+        && request.resource.data.quote.size() >= 20
+        && request.resource.data.quote.size() <= 600
+        && request.resource.data.consent == true
+        && request.resource.data.hidden == false
+        && request.resource.data.createdAt == request.time;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
