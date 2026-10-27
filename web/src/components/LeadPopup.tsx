@@ -116,6 +116,7 @@ export default function LeadPopup() {
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
   const [reference, setReference] = useState('')
+  const [whatsappOpened, setWhatsappOpened] = useState(false)
   const startedRef = useRef(false)
 
   useEffect(() => {
@@ -189,9 +190,14 @@ export default function LeadPopup() {
 
     setError('')
     setStatus('submitting')
+    // Open the WhatsApp tab now, while we're still inside the click — browsers
+    // block window.open after an await. It's pointed at the chat once saved.
+    const waWindow = window.open('about:blank', '_blank')
+    if (waWindow) waWindow.opener = null
+    let ref = ''
     try {
       const { website: _honeypot, ...lead } = form
-      const ref = await submitConsultationLead({
+      ref = await submitConsultationLead({
         ...lead,
         name: lead.name.trim(),
         email: lead.email.trim().toLowerCase(),
@@ -211,6 +217,12 @@ export default function LeadPopup() {
       setStatus('error')
       trackEvent('consultation_error', { message: err instanceof Error ? err.message : 'unknown' })
     }
+    // Send the brief to the studio's WhatsApp even if the save failed, so no lead is lost.
+    if (waWindow) {
+      waWindow.location.href = buildWhatsappHref(ref)
+      setWhatsappOpened(true)
+      trackEvent('consultation_whatsapp_auto_open', { reference: ref })
+    }
   }
 
   function handleClose() {
@@ -224,6 +236,7 @@ export default function LeadPopup() {
       setStatus('idle')
       setError('')
       setReference('')
+      setWhatsappOpened(false)
       startedRef.current = false
     }, 300)
   }
@@ -240,12 +253,15 @@ export default function LeadPopup() {
     ['Start', form.timeline],
     ['Best time to call', form.callbackSlot],
   ]
-  const whatsappMessage = [
-    `Hi VELQORASPACES, I'd like a free design consultation${reference ? ` (ref ${reference})` : ''}.`,
-    '',
-    ...details.filter(([, value]) => value).map(([label, value]) => `${label}: ${value}`),
-  ].join('\n')
-  const whatsappHref = `https://wa.me/${BRAND.phoneRaw}?text=${encodeURIComponent(whatsappMessage)}`
+  function buildWhatsappHref(ref: string) {
+    const message = [
+      `Hi VELQORASPACES, I'd like a free design consultation${ref ? ` (ref ${ref})` : ''}.`,
+      '',
+      ...details.filter(([, value]) => value).map(([label, value]) => `${label}: ${value}`),
+    ].join('\n')
+    return `https://wa.me/${BRAND.phoneRaw}?text=${encodeURIComponent(message)}`
+  }
+  const whatsappHref = buildWhatsappHref(reference)
 
   return (
     <AnimatePresence>
@@ -296,6 +312,7 @@ export default function LeadPopup() {
                       phone={form.phone}
                       slot={form.callbackSlot}
                       reference={reference}
+                      whatsappOpened={whatsappOpened}
                       whatsappHref={whatsappHref}
                       onDone={handleClose}
                     />
@@ -679,6 +696,7 @@ function SuccessView({
   phone,
   slot,
   reference,
+  whatsappOpened,
   whatsappHref,
   onDone,
 }: {
@@ -686,6 +704,7 @@ function SuccessView({
   phone: string
   slot: string
   reference: string
+  whatsappOpened: boolean
   whatsappHref: string
   onDone: () => void
 }) {
@@ -708,6 +727,10 @@ function SuccessView({
       </h3>
       <p className="mt-2 text-sm text-ivory/60">
         A design lead will call you on +91 {phone} this {slot.toLowerCase()}, or the next working day.
+      </p>
+      <p className="mt-2 text-xs text-ivory/45">
+        {whatsappOpened ? "We've opened WhatsApp with your details — just tap " : 'Tap the WhatsApp button below, then tap '}
+        <span className="text-ivory/70">Send</span> to share them with our studio.
       </p>
       {reference && (
         <p className="mt-3 inline-flex w-fit items-center gap-2 rounded-full border border-gold-400/30 bg-gold-400/5 px-3 py-1 text-xs text-gold-200">
@@ -742,7 +765,7 @@ function SuccessView({
           className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#25D366] py-3 text-sm font-semibold text-obsidian-900 transition hover:brightness-110"
         >
           <WhatsappGlyph className="h-4 w-4" />
-          Chat on WhatsApp now
+          Send details on WhatsApp
         </a>
         <button
           onClick={onDone}

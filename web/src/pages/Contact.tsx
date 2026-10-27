@@ -19,7 +19,7 @@ export default function Contact() {
     <div className="bg-obsidian-900 pt-32">
       <Seo
         title="Contact"
-        description="Get in touch with VELQORASPACES — Interiors Designing Studio at Mirzaguda, Janwada, Rangareddy, Telangana. Call +91 99899 95865 or book a free design consultation."
+        description="Get in touch with VELQORASPACES — Interiors Designing Studio at Puppalaguda, Narsingi Road, Hyderabad. Call +91 99899 95865 or book a free design consultation."
         path="/contact"
       />
       <section className="mx-auto max-w-4xl px-6 text-center sm:px-8">

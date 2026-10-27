@@ -20,6 +20,8 @@ import residenceSlidingWardrobe from '../assets/portfolio/residence-sliding-ward
 import residenceGeometricWardrobe from '../assets/portfolio/residence-geometric-wardrobe.jpg'
 import residenceBedroomTvWall from '../assets/portfolio/residence-bedroom-tv-wall.jpg'
 
+const MAPS_QUERY = '3-20-44, Opposite Hallmark, Puppalaguda, Narsingi Road, Hyderabad 500089'
+
 export const BRAND = {
   name: 'VELQORASPACES',
   tagline: 'Interiors Designing Studio',
@@ -27,11 +29,10 @@ export const BRAND = {
   phoneDisplay: '+91 99899 95865',
   phoneRaw: '919989995865',
   email: 'interiors@velqoraspaces.com',
-  address: '1-37, Mirzaguda, Janwada Main Road, Rangareddy, Telangana 500075',
-  mapsUrl: 'https://www.google.com/maps?q=17.4077112,78.2629449&z=17&hl=en',
-  mapsEmbedUrl: 'https://maps.google.com/maps?q=17.4077112,78.2629449&z=16&hl=en&output=embed',
-  lat: 17.4077112,
-  lng: 78.2629449,
+  address: '#3-20-44, Opposite Hallmark, Puppalaguda, Narsingi Road, Hyderabad, Telangana 500089',
+  // Map links search the address text; swap in exact studio coordinates once pinned on Google Maps.
+  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAPS_QUERY)}`,
+  mapsEmbedUrl: `https://maps.google.com/maps?q=${encodeURIComponent(MAPS_QUERY)}&z=16&hl=en&output=embed`,
 }
 
 export const SOCIALS = [
