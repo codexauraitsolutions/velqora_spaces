@@ -20,7 +20,9 @@ import residenceSlidingWardrobe from '../assets/portfolio/residence-sliding-ward
 import residenceGeometricWardrobe from '../assets/portfolio/residence-geometric-wardrobe.jpg'
 import residenceBedroomTvWall from '../assets/portfolio/residence-bedroom-tv-wall.jpg'
 
-const MAPS_QUERY = '3-20-44, Opposite Hallmark, Puppalaguda, Narsingi Road, Hyderabad 500089'
+// Office pin from Google Maps.
+const STUDIO_LAT = 17.3985476
+const STUDIO_LNG = 78.3649861
 
 export const BRAND = {
   name: 'VELQORASPACES',
@@ -30,9 +32,10 @@ export const BRAND = {
   phoneRaw: '919989995865',
   email: 'interiors@velqoraspaces.com',
   address: '#3-20-44, Opposite Hallmark, Puppalaguda, Narsingi Road, Hyderabad, Telangana 500089',
-  // Map links search the address text; swap in exact studio coordinates once pinned on Google Maps.
-  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(MAPS_QUERY)}`,
-  mapsEmbedUrl: `https://maps.google.com/maps?q=${encodeURIComponent(MAPS_QUERY)}&z=16&hl=en&output=embed`,
+  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${STUDIO_LAT},${STUDIO_LNG}`,
+  mapsEmbedUrl: `https://maps.google.com/maps?q=${STUDIO_LAT},${STUDIO_LNG}&z=17&hl=en&output=embed`,
+  lat: STUDIO_LAT,
+  lng: STUDIO_LNG,
 }
 
 export const SOCIALS = [
