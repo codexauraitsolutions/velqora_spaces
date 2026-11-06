@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X, Phone } from 'lucide-react'
 import { BRAND, NAV_LINKS } from '../data/site'
 import { usePopup } from '../context/PopupContext'
-import logo from '../assets/logo.jpeg'
+import logo from '../assets/logo-mark.webp'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -28,7 +28,7 @@ export default function Navbar() {
         {/* lg+: logo | centred menu | actions, so the menu sits in the true centre */}
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
           <Link to="/" className="flex items-center gap-3 lg:justify-self-start">
-            <img src={logo} alt="VELQORASPACES logo" className="h-11 w-11 rounded-full object-cover ring-1 ring-gold-400/40" />
+            <img src={logo} alt="VELQORASPACES logo" className="h-12 w-12 object-contain" />
             <span className="hidden flex-col leading-none sm:flex lg:hidden xl:flex">
               <span className="font-display text-lg tracking-[0.15em] text-ivory">VELQORA<span className="text-gold-300">SPACES</span></span>
               <span className="text-[9px] uppercase tracking-[0.35em] text-gold-400/60">Interiors Designing Studio</span>
@@ -84,7 +84,7 @@ export default function Navbar() {
             className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-obsidian-900/98 backdrop-blur-xl lg:hidden"
           >
             <div className="flex shrink-0 items-center justify-between px-5 py-4">
-              <img src={logo} alt="VELQORASPACES" className="h-10 w-10 rounded-full object-cover ring-1 ring-gold-400/40" />
+              <img src={logo} alt="VELQORASPACES" className="h-11 w-11 object-contain" />
               <button onClick={() => setMobileOpen(false)} className="rounded-full border border-gold-400/25 p-2.5 text-ivory">
                 <X className="h-5 w-5" />
               </button>

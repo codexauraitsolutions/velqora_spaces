@@ -8,7 +8,7 @@ import { MAX_PHOTOS, compressPhoto, uploadPhotos } from '../lib/photos'
 import { trackEvent } from '../lib/analytics'
 
 type PickedPhoto = { id: string; file: File; preview: string }
-import logo from '../assets/logo.jpeg'
+import logo from '../assets/logo-full.webp'
 
 const PROJECT_OPTIONS = [
   'Full home interiors',
@@ -129,7 +129,7 @@ export default function Feedback() {
 
       <div className="relative mx-auto max-w-xl px-5 sm:px-8">
         <div className="text-center">
-          <img src={logo} alt="VELQORASPACES" className="mx-auto h-14 w-14 rounded-full object-cover ring-1 ring-gold-400/40" />
+          <img src={logo} alt="VELQORA SPACES" className="mx-auto w-40 sm:w-48" />
           <p className="mt-6 text-xs uppercase tracking-[0.4em] text-gold-400/70">Client Feedback</p>
           <h1 className="mt-4 font-display text-4xl leading-tight text-ivory sm:text-5xl">
             How did we <span className="text-gold-foil italic">do?</span>

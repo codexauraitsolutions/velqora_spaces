@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react'
 import { BRAND, NAV_LINKS, SOCIALS } from '../data/site'
 import { BRAND_ICONS } from './icons/BrandIcons'
-import logo from '../assets/logo.jpeg'
+import logoFull from '../assets/logo-full.webp'
 
 export default function Footer() {
   return (
@@ -12,13 +12,7 @@ export default function Footer() {
       <div className="relative mx-auto max-w-7xl px-6 sm:px-8">
         <div className="grid grid-cols-1 gap-12 pb-16 md:grid-cols-4">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3">
-              <img src={logo} alt="VELQORASPACES" className="h-12 w-12 rounded-full object-cover ring-1 ring-gold-400/40" />
-              <div>
-                <p className="font-display text-xl tracking-[0.15em] text-ivory">VELQORA<span className="text-gold-300">SPACES</span></p>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-gold-400/60">Interiors Designing Studio</p>
-              </div>
-            </div>
+            <img src={logoFull} alt="VELQORA SPACES — Architecture Interiors Studio" className="w-52 sm:w-60" loading="lazy" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-ivory/50">
               We craft interiors that feel inevitable — considered spatial planning, honest materials
               and a level of finish that rewards a closer look.

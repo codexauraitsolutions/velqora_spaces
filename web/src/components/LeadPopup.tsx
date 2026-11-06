@@ -28,7 +28,7 @@ import { BRAND, CITIES } from '../data/site'
 import { WhatsappGlyph } from './icons/BrandIcons'
 import { submitConsultationLead } from '../lib/firebase'
 import { trackEvent } from '../lib/analytics'
-import logo from '../assets/logo.jpeg'
+import logo from '../assets/logo-mark.webp'
 import stepOneImage from '../assets/portfolio/residence-marble-tv-wall.jpg'
 import stepTwoImage from '../assets/portfolio/residence-modular-kitchen-white.jpg'
 import stepThreeImage from '../assets/portfolio/rudrani-lounge.jpg'
@@ -634,7 +634,7 @@ function BriefPanel({ step, form }: { step: number; form: typeof INITIAL_FORM })
 
       <div className="relative flex h-full flex-col justify-between p-7">
         <div className="flex items-center gap-2">
-          <img src={logo} alt="VELQORASPACES" className="h-10 w-10 rounded-full object-cover ring-1 ring-gold-400/40" />
+          <img src={logo} alt="VELQORASPACES" className="h-11 w-11 object-contain" />
           <span className="font-display text-sm tracking-[0.25em] text-gold-300">VELQORASPACES</span>
         </div>
 
